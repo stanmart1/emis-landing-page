@@ -1201,7 +1201,8 @@
             console.log('Sending email with data:', formData);
             
             // Send email using EmailJS
-            emailjs.send('service_otz431p', 'template_es33q6v', formData)
+            // Note: You need to replace these with your actual service and template IDs from EmailJS dashboard
+            emailjs.send('service_otz431p', 'template_okes71i', formData)
                 .then(function(response) {
                     // Success
                     console.log('SUCCESS!', response.status, response.text);

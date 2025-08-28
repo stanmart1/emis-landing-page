@@ -1074,8 +1074,12 @@
             });
         });
 
-        // Initialize EmailJS with your public key
-        emailjs.init('Wu0Ol1_elj1SXTk6S');
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize EmailJS with your public key
+            emailjs.init('Wu0Ol1_elj1SXTk6S');
+            console.log('EmailJS initialized');
+        });
 
         // Form validation function
         function validateForm() {
@@ -1141,8 +1145,15 @@
             }, 5000);
         }
 
-        // Form submission handler
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
+        // Form submission handler - ensure DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('contactForm');
+            if (!form) {
+                console.error('Contact form not found!');
+                return;
+            }
+            
+            form.addEventListener('submit', function(e) {
             // Always prevent default form submission
             e.preventDefault();
             e.stopPropagation();
@@ -1204,6 +1215,18 @@
                 });
             
             return false;
+            });
+            
+            // Test button click detection
+            const submitBtn = document.querySelector('button[type="submit"]');
+            if (submitBtn) {
+                console.log('Submit button found');
+                submitBtn.addEventListener('click', function(e) {
+                    console.log('Submit button clicked!');
+                });
+            } else {
+                console.error('Submit button not found!');
+            }
         });
 
         // Add real-time validation

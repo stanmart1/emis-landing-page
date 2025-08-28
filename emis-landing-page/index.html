@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EMIS Nigeria - Transform Your State's Education System</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/emailjs-com/3.2.0/email.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
@@ -1077,8 +1077,12 @@
         // Wait for DOM to be fully loaded
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize EmailJS with your public key
-            emailjs.init('Wu0Ol1_elj1SXTk6S');
-            console.log('EmailJS initialized');
+            if (typeof emailjs !== 'undefined') {
+                emailjs.init('Wu0Ol1_elj1SXTk6S');
+                console.log('EmailJS initialized successfully');
+            } else {
+                console.error('EmailJS library not loaded');
+            }
         });
 
         // Form validation function

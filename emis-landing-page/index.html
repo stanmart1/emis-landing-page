@@ -933,7 +933,7 @@
                 </p>
 
                 <div class="contact-form scroll-animate">
-                    <form id="contactForm">
+                    <form id="contactForm" action="javascript:void(0);" method="post">
                         <div class="form-grid">
                             <div class="form-group">
                                 <label for="fullName">Full Name *</label>
@@ -1143,11 +1143,15 @@
 
         // Form submission handler
         document.getElementById('contactForm').addEventListener('submit', function(e) {
+            // Always prevent default form submission
             e.preventDefault();
+            e.stopPropagation();
+            
+            console.log('Form submitted - preventDefault called');
             
             if (!validateForm()) {
                 showMessage('Please fill in all required fields correctly.', 'error');
-                return;
+                return false;
             }
             
             // Show loading state
@@ -1155,6 +1159,15 @@
             const originalText = submitBtn.innerHTML;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
             submitBtn.disabled = true;
+            
+            // Check if EmailJS is loaded
+            if (typeof emailjs === 'undefined') {
+                console.error('EmailJS not loaded');
+                showMessage('Email service not available. Please try again later.', 'error');
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                return false;
+            }
             
             // Collect form data
             const formData = {
@@ -1169,6 +1182,8 @@
                 // Add timestamp
                 submission_date: new Date().toLocaleString()
             };
+            
+            console.log('Sending email with data:', formData);
             
             // Send email using EmailJS
             emailjs.send('service_otz431p', 'template_es33q6v', formData)
@@ -1187,6 +1202,8 @@
                     submitBtn.innerHTML = originalText;
                     submitBtn.disabled = false;
                 });
+            
+            return false;
         });
 
         // Add real-time validation
@@ -1232,8 +1249,8 @@
             }
         });
 
-        // Add loading states to buttons
-        document.querySelectorAll('.btn').forEach(btn => {
+        // Add loading states to buttons (exclude form submit button)
+        document.querySelectorAll('.btn:not([type="submit"])').forEach(btn => {
             btn.addEventListener('click', function() {
                 if (this.href && this.href.includes('#')) return; // Skip for anchor links
                 
